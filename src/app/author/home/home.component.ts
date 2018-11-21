@@ -3,20 +3,24 @@ import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class LoginComponent implements OnInit {
+export class HomeComponent implements OnInit {
 
   modalRef: BsModalRef;
   config = {
     animated: true,
     // backdrop: 'static'
   };
+
+  name = 'Dronacharya';
+
    constructor(private modalService: BsModalService) {}
 
    ngOnInit() {}
+
 
   openModal(template: TemplateRef<any>) {
     this.modalRef = this.modalService.show(template, this.config );

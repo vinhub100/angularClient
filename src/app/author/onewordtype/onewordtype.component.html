@@ -1,0 +1,135 @@
+<nav class="navbar navbar-expand-md bg-lite fixed-top">
+  <ul class="nav">
+    <li class="nav-item">
+      <a [routerLink]="['/author']" class="nav-link btn text-success btn-outline-success py-2 rounded-circle"><h3>&lt;&lt;</h3></a>
+    </li>
+    
+  </ul>
+  <!-- Example single danger button -->
+</nav>
+
+<!-- <div class="row">
+  <div class="col-md-8 offset-md-2">
+    <h1 class="text-success">Hello {{ name }} </h1>
+  </div>
+</div> -->
+<br/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card elementbg">
+            <div class="card-header text-success">
+              <div class="d-flex flex-row">
+                <h3 class="p-2">One Word Question List</h3>
+                <button class="btn btn-outline-success ml-auto my-1 py-0 px-4" (click)="createQuestion.show()">Create</button>
+              </div>
+            </div>
+            <div class="card-body elementbg">
+              <div class="list-group">
+                <button *ngFor="let question of questionList;index as i;" class="list-group-item list-group-item-action list-group-item-success" (click)='selectQuestion(i);viewQuestion.show();'>{{ i+1 }} : {{ question.stmt }}</button>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create Question MODALS -->
+
+
+<div bsModal #createQuestion="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color:#bbddbbdd;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Create Question</h4>
+        
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Question Statement</label>
+            <input type="text"  name="question" class="form-control formelementbg" placeholder="Question" [(ngModel)]='addQ.stmt'>
+          </div>
+          <div>
+            <label>Hint</label>
+            <input type="text" name="hint"  class="form-control formelementbg" placeholder="Hint" [(ngModel)]='addQ.hint'>
+          </div>
+          <div>
+            <label>Answer</label>
+            <input type="text" name="answer"  class="form-control formelementbg" placeholder="Answer" [(ngModel)]='addQ.answer'>
+          </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)='addQuestion();createQuestion.hide();selectQuestion(0);viewQuestion.show();'>Create</button>
+        <button type="button" class="btn btn-outline-success pull-right" (click)="createQuestion.hide();" >Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Question View MODAL -->
+
+
+<div bsModal #viewQuestion="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color:#bbddbbdd;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Question {{ q_index + 1 }} : </h4>
+        
+      </div>
+      <div class="modal-body">
+        <h4>{{ q.stmt }}</h4>
+        <small class="text-success">Hint : {{ q.hint }}</small>
+        <hr>
+        <h5>Answer : {{ q.answer }} </h5>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-outline-success" (click)='selectQuestion(q_index);viewQuestion.hide();editQuestion.show();'>Edit Question</button>
+        <button class="btn btn-outline-success" (click)='deleteQuestion(q_index);viewQuestion.hide();'>Delete Question</button>
+        <button type="button" class="btn btn-success pull-right" (click)="viewQuestion.hide();" >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Question Update MODAL -->
+
+<div bsModal #editQuestion="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color:#bbddbbdd;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Update Question</h4>
+        
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Question Statement</label>
+            <h4>{{ q.stmt }}</h4>
+          </div>
+          <div>
+            <label>Hint</label>
+            <input type="text" name="hint"  class="form-control formelementbg" placeholder="Hint" [(ngModel)]='q.hint'>
+          </div>
+          <div>
+              <label>Answer</label>
+              <input type="text" name="answer"  class="form-control formelementbg" placeholder="Answer" [(ngModel)]='q.answer'>
+            </div>
+          {{ q | json }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)='updateQuestion();editQuestion.hide();viewQuestion.show();'>Update</button>
+        <button type="button" class="btn btn-outline-success pull-right" (click)="editQuestion.hide()" >Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+

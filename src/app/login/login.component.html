@@ -1,3 +1,75 @@
-<p>
-  login works!
-</p>
+<div class="row">
+  <div class="col-md-6 offset-md-1" style="top:100px;">
+      <div class="jumbotron jumbotron-fluid" style="top:100%; background-color: transparent; color:springgreen;">
+          <div class="container">
+            <h1 class="display-4">The Quiz App</h1>
+            <p class="lead">Hey... Lets play Quiz....</p>
+          </div>
+      </div>
+
+  </div>
+  <div class="col-md-5">
+    <div class="row">
+      <div class="col-10 offset-1">
+    <div class="card" style="top:50%; background-color: #bbddbbcc;">
+      <div class="card-header">
+        <h3>Login</h3>
+      </div>
+      <div class="card-body">
+          <form>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Username</label>
+                <input type="text" class="form-control formelementbg" id="exampleInputEmail1" placeholder="User Name" >
+                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control formelementbg" id="exampleInputPassword1" placeholder="Password" >
+              </div>
+              <button type="submit" class="btn btn-success">Sign In</button>
+              <span>  or  </span>
+              <button type="button" class="btn btn-outline-success" (click)="signup.show()"> Sign Up</button>
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+<div bsModal #signup="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color:#bbddbbcc;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Sign Up</h4>
+        
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" class="form-control formelementbg" placeholder="User Name">
+          </div>
+          <div>
+            <label>Email</label>
+            <input type="email" class="form-control formelementbg" placeholder="Email">
+          </div>
+          <div>
+            <label>Password</label>
+            <input type="password" class="form-control formelementbg" placeholder="Password">
+          </div>
+          <div>
+            <label>Confirm Password</label>
+            <input type="password" class="form-control formelementbg" placeholder="Confirm Password">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success">Sign Up</button>
+        <button type="button" class="btn btn-outline-success pull-right" (click)="signup.hide()" >Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
