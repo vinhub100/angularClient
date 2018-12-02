@@ -1,3 +1,164 @@
-<p>
-  multichoicetype works!
-</p>
+<nav class="navbar navbar-expand-md bg-lite fixed-top">
+  <ul class="nav">
+    <li class="nav-item">
+      <a [routerLink]="['/author']" class="nav-link btn text-success btn-outline-success py-1 rounded-circle"><h3>&laquo;</h3></a>
+    </li>
+    
+  </ul>
+  <!-- Example single danger button -->
+</nav>
+
+<br/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card elementbg">
+            <div class="card-header text-success">
+              <div class="d-flex flex-row">
+                <h3 class="p-2">Multi Choice Question List</h3>
+                <button class="btn btn-outline-success ml-auto my-1 py-0 px-4" (click)="createReactiveQuestion();createQuestion.show();">Create</button>
+              </div>
+            </div>
+            <div class="card-body elementbg">
+              <div class="list-group">
+                <button *ngFor="let que of questionList;index as i;" class="list-group-item list-group-item-action list-group-item-success" (click)='selectQuestion(i);viewQuestion.show();'>{{ i+1 }} : {{ que.question }}</button>
+              </div>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Create Question MODALS -->
+
+
+<div bsModal #createQuestion="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color:#bbddbbdd;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Create Question</h4>
+        {{ createQuestionForm.value | json }}
+      </div>
+      <div class="modal-body">
+        <form [formGroup]='createQuestionForm'>
+          <div class="form-group">
+            <label>Question Statement</label>
+            <input type="text"  name="question" class="form-control formelementbg" placeholder="Question" formControlName='question'>
+          </div>
+          <hr>
+          <div  class="form-group">
+            <label>Options :</label>
+            <div class="input-group" formArrayName="options" *ngFor="let opt of options.controls; let i = index;" >
+              <input type="text" [formControlName]="i" placeholder="opt" name="opt" class="form-control"aria-label="Options" aria-describedby="btnGroupAddon"  >
+              <div class="input-group-prepend">
+                <button class="btn btn-outline-success input-group-text" id="btnGroupAddon" (click)='deleteOption(i)'>x</button>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-success btn-sm pull-right" (click)='addOption()'>Add Option</button>
+          </div>
+          <br>
+          <hr>
+          <div  class="form-group">
+            <label>Answers :{{ options.length -1 }}</label>
+            <div class="input-group" formArrayName="answer" *ngFor="let ans of answer.controls; let i = index;" >
+              
+                <select class="form-control" id="answer" name="answer" [formControlName]="i">
+                  <option *ngFor='let option of options.controls' value="{{ option.value }}">{{ option.value }}</option>
+                </select>
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-success input-group-text" id="btnGroupAddon" (click)='deleteOption(i)'>x</button>
+                  </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <button class="btn btn-success btn-sm pull-right" (click)='addAnswer()'>Add Answer</button>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)='addQuestion();createQuestion.hide();selectQuestion(0);viewQuestion.show();'>Create</button>
+        <button type="button" class="btn btn-outline-success pull-right" (click)="createQuestion.hide();">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Question View MODAL -->
+
+
+<div bsModal #viewQuestion="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color:#bbddbbdd;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Question : </h4>
+        
+      </div>
+      <div class="modal-body">
+        <h4>{{ q.question }}</h4>
+        <hr>
+        <h5>Options : <ol><li *ngFor="let option of q?.options">{{ option }} </li></ol></h5>
+        <hr>
+        <h5>Answer : <ol><li *ngFor="let ans of q?.answer">{{ ans }} </li></ol> </h5>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-outline-success" (click)='selectQuestion(qIndex);viewQuestion.hide();editQuestion.show();'>Edit Question</button>
+        <button class="btn btn-outline-success" (click)='deleteQuestion(qIndex);viewQuestion.hide();'>Delete Question</button>
+        <button type="button" class="btn btn-success pull-right" (click)="viewQuestion.hide();" >Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Question Update MODAL -->
+
+<div bsModal #editQuestion="bs-modal" class="modal fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="background-color:#bbddbbdd;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Update Question</h4>
+        
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Question Statement</label>
+            <h4>{{ q.question }}</h4>
+          </div>
+          <div  class="form-group">
+              <label>Options :</label>
+              <div class="input-group" *ngFor="let opt of q?.options; let i = index;" >
+                <input type="text" placeholder="{{ opt.option }}" value="{{ opt.option }}" name="option" class="form-control" [value]="opt.option" [placeholder]="opt.option" aria-label="Options" aria-describedby="btnGroupAddon" [(ngModel)]='q?.options[i].option'>
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-success input-group-text" id="btnGroupAddon" (click)='deleteUpdateOption(i)'>x</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success btn-sm pull-right" (click)='updateAddOption()'>Add Option</button>
+            </div>
+            <br>
+            <hr>
+            <div class="form-group">
+              <label for="answer">Answer</label>
+              <select class="form-control" id="answer" name="answer" [(ngModel)]='q.answer'>
+                <option *ngFor='let option of q?.options' value="{{ option.option }}">{{ option.option }}</option>
+              </select>
+            </div>
+          {{ q | json }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" (click)='updateQuestion();editQuestion.hide();viewQuestion.show();'>Update</button>
+        <button type="button" class="btn btn-outline-success pull-right" (click)="editQuestion.hide()" >Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+

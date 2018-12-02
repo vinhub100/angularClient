@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-md bg-lite fixed-top">
   <ul class="nav">
     <li class="nav-item">
-      <a [routerLink]="['/author']" class="nav-link btn text-success btn-outline-success py-2 rounded-circle"><h3>&lt;&lt;</h3></a>
+      <a [routerLink]="['/author']" class="nav-link btn text-success btn-outline-success py-1 rounded-circle"><h3>&laquo;</h3></a>
     </li>
     
   </ul>
@@ -20,7 +20,7 @@
         <div class="card elementbg">
             <div class="card-header text-success">
               <div class="d-flex flex-row">
-                <h3 class="p-2">One Word Question List</h3>
+                <h3 class="p-2">Single Choice Question List</h3>
                 <button class="btn btn-outline-success ml-auto my-1 py-0 px-4" (click)="createQuestion.show();">Create</button>
               </div>
             </div>
@@ -130,13 +130,25 @@
             <label>Question Statement</label>
             <h4>{{ q.stmt }}</h4>
           </div>
-          <div>
-            <label>Hint</label>
-            <input type="text" name="hint"  class="form-control formelementbg" placeholder="Hint" [(ngModel)]='q.hint'>
-          </div>
-          <div>
-              <label>Answer</label>
-              <input type="text" name="answer"  class="form-control formelementbg" placeholder="Answer" [(ngModel)]='q.answer'>
+          <div  class="form-group">
+              <label>Options :</label>
+              <div class="input-group" *ngFor="let opt of q?.options; let i = index;" >
+                <input type="text" placeholder="{{ opt.option }}" value="{{ opt.option }}" name="option" class="form-control" [value]="opt.option" [placeholder]="opt.option" aria-label="Options" aria-describedby="btnGroupAddon" [(ngModel)]='q?.options[i].option'>
+                <div class="input-group-prepend">
+                  <button class="btn btn-outline-success input-group-text" id="btnGroupAddon" (click)='deleteUpdateOption(i)'>x</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success btn-sm pull-right" (click)='updateAddOption()'>Add Option</button>
+            </div>
+            <br>
+            <hr>
+            <div class="form-group">
+              <label for="answer">Answer</label>
+              <select class="form-control" id="answer" name="answer" [(ngModel)]='q.answer'>
+                <option *ngFor='let option of q?.options' value="{{ option.option }}">{{ option.option }}</option>
+              </select>
             </div>
           {{ q | json }}
         </form>

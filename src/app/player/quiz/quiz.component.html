@@ -1,3 +1,100 @@
-<h1 style="color:green;">
-  quiz works!
-</h1>
+<nav class="navbar navbar-expand-md bg-lite fixed-top">
+  <ul class="nav">
+    <li class="nav-item">
+      <a [routerLink]="['/player']" class="nav-link btn text-success btn-outline-success py-1 rounded-circle"><h3>&laquo;</h3></a>
+    </li>
+  </ul>
+  <ul class="nav ml-auto mr-5">
+      <li class="nav-item text-center text-success border border-success rounded">
+          <h4 class="p-2">Score: 4570</h4>
+      </li>
+    </ul>
+</nav>
+
+<!-- <li class="nav-item ml-auto">
+    <h3>4570</h3>
+  </li> -->
+
+
+<br/>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card mt-5 elementbg text-success">
+            <div class="card-header ">
+              <div class="d-flex flex-row">
+                <h3 class="p-2">{{ qmodel.question }}</h3>
+              </div>
+            </div>
+            <div class="card-body ">
+              <div [ngSwitch]="qmodel.type">
+                <div *ngSwitchCase="'OW'">
+                  <small>hint: "{{ qmodel.hint }}"</small><br><br>
+                  <form action="">
+                  <div class="form-group">
+                    <label>Answer</label>
+                    <input class="form-control elementbg text-success" type="text" name="answer">
+                  </div>
+                </form>
+                </div>
+                <div *ngSwitchCase="'SC'">
+                  <form>
+                    <div class="form-group">
+                      <label>Choose Answer:</label>
+                      <select name="answer" class="form-control elementbg text-success">
+                        <option *ngFor="let op of qmodel.options" value="{{op}}">{{ op }}</option>
+                      </select>
+                    </div>
+                  </form>
+                </div>
+                <div *ngSwitchCase="'MC'">
+                    <form>
+                        <div class="form-group">
+                          <label>Choose Answer:</label>
+                          <div class="form-check" *ngFor="let op of qmodel.options">
+                              <input class="form-check-input" type="checkbox" value="{{ op }}" id="Check">
+                              <label class="form-check-label" for="Check">
+                                {{ op }}
+                              </label>
+                          </div>
+                        </div>
+                      </form>
+                </div>
+                <div *ngSwitchDefault>
+                  <h3>Something went wrong Bro</h3>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer d-flex">
+              <button class="btn btn-success btn-lg ml-auto" (click)='viewAnswerMessage.show();'>Submit</button>
+            </div>
+          </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- MODEL -->
+
+
+<div bsModal #viewAnswerMessage="bs-modal" class="modal darkbg fade" tabindex="-1" [config]="{backdrop: 'static'}"
+     role="dialog" aria-labelledby="dialog-sizes-name1" >
+  <div class="modal-dialog modal-lg" style="top:20%;">
+    <div class="modal-content" style="background-color:#bbddbbdd;">
+      <div class="modal-header">
+        <h4 id="dialog-sizes-name1" class="modal-title pull-left">Answer Is</h4>
+        
+      </div>
+      <div class="modal-body">
+        <h4></h4>
+        <h5>Options : <ol><li *ngFor="let option of q?.options">{{ option.option }} </li></ol></h5>
+        <h5>Answer :  </h5>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-success btn-lg" (click)='changetype();viewAnswerMessage.hide();'>OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+

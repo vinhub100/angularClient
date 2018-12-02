@@ -10,7 +10,6 @@ import { LoginComponent } from './login/login.component';
 import { PagenotfoundComponent } from './error/pagenotfound/pagenotfound.component';
 import { AccessdeniedComponent } from './error/accessdenied/accessdenied.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

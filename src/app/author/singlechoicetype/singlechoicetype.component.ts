@@ -16,9 +16,12 @@ export class SinglechoicetypeComponent implements OnInit {
   };
   qIndex = 0;
   q = {'stmt': '', 'options': [{'option': ''}], 'answer': ''};
-  qmodel = {'stmt': 'wwerwe', 'options': [{'option': 'vxc'}], 'answer': 'cvx'};
+  qmodel = {'stmt': '', 'options': [{'option': ''}], 'answer': ''};
 
   questionList = [
+    { 'stmt': 'Which animal do you like?',
+    'options': [ { 'option': 'cat' }, { 'option': 'goat' }, { 'option': 'camel' } ],
+     'answer': 'goat' },
     { 'stmt': 'Which was the 1st non Test playing country to beat India in an international match?',
      'options': [{'option': 'wew'}],
       'answer': 'qw'
@@ -114,5 +117,22 @@ export class SinglechoicetypeComponent implements OnInit {
   }
 
   updateQuestion() {
+    if (this.questionList[this.qIndex].stmt === this.q.stmt) {
+      this.questionList[this.qIndex].options = this.q.options;
+      this.questionList[this.qIndex].answer = this.q.answer;
+    }
+  }
+
+  updateDeleteOption(indx) {
+    this.q.options.splice(indx, 1);
+  }
+
+  updateAddOption() {
+    this.q.options.push({'option': ''});
+  }
+
+
+  deleteUpdateOption(i) {
+    this.q.options.splice(i, 1);
   }
 }
